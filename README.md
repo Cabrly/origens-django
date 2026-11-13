@@ -1,62 +1,52 @@
-# Origens — Protótipo com dados demonstrativos
+# Origens
 
-Esta versão já inclui dados fictícios que são inseridos automaticamente quando você executa:
+Protótipo de uma plataforma para dar visibilidade à cultura e à arte de povos indígenas: comunidades, artistas,
+obras, exposições e eventos, com um painel administrativo para quem cuida do conteúdo.
 
-```bash
-python manage.py migrate
-```
+Feito em Django, com dados **fictícios** de demonstração, só para visualizar o conceito.
 
-## Conteúdo de demonstração
+## O que tem
 
-- 5 comunidades fictícias
-- 8 artistas fictícios
-- 12 obras fictícias
-- 4 exposições fictícias
-- 6 eventos fictícios
+- **Comunidades**, com página de detalhe, idiomas e localização pública (a localização exata nunca aparece).
+- **Artistas** por categoria, ligados à comunidade.
+- **Obras** e **exposições** (uma exposição reúne várias obras).
+- **Eventos**.
+- **Admin do Django** configurado para cadastrar e ocultar conteúdo (`visibilidade`, `ativo`, `publica`).
+- Dados de exemplo criados por migração (5 comunidades, 8 artistas, 12 obras, 4 exposições, 6 eventos), todos
+  marcados com `demonstracao=True` para serem fáceis de remover.
 
-Todos os registros de exemplo possuem o campo `demonstracao=True`.
+Páginas: `/`, `/comunidades/`, `/comunidades/<id>/`, `/artistas/`, `/exposicoes/`, `/eventos/`, `/admin/`.
 
-## Maneira mais fácil de iniciar no Windows
+## Como rodar
 
-Dê dois cliques em:
+Windows: dê dois cliques em `INICIAR.bat` (cria o ambiente, instala o Django, migra e sobe o servidor).
+Para criar o administrador, rode `CRIAR_ADMIN.bat`.
 
-`INICIAR.bat`
-
-Na primeira execução ele:
-
-1. cria o ambiente virtual;
-2. instala o Django;
-3. cria o banco;
-4. cadastra automaticamente os dados de demonstração;
-5. inicia o servidor.
-
-Depois abra:
-
-- Site: http://127.0.0.1:8000/
-- Admin: http://127.0.0.1:8000/admin/
-
-## Criar usuário administrador
-
-Depois de executar o sistema pelo menos uma vez, dê dois cliques em:
-
-`CRIAR_ADMIN.bat`
-
-A senha não aparece na tela enquanto você digita. Isso é normal.
-
-## Rodar manualmente
+Manualmente:
 
 ```bash
 python -m venv venv
-venv\Scripts\activate
+venv\Scripts\activate        # Linux/macOS: source venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
+python manage.py createsuperuser
 python manage.py runserver
 ```
 
-## Observação importante
+Abra http://127.0.0.1:8000/
 
-Os nomes, descrições, artistas, obras e eventos incluídos neste protótipo são fictícios.
-Eles servem apenas para visualizar o conceito do software.
+## Estrutura
 
-Em uma implantação real, dados culturais e localização devem ser publicados somente com
-autorização e participação da comunidade correspondente.
+| Pasta | Papel |
+|---|---|
+| `config/` | configurações e rotas do projeto |
+| `cultura/models.py` | Comunidade, Artista, Obra, Exposição, Evento |
+| `cultura/migrations/0002_dados_demonstracao.py` | dados fictícios |
+| `cultura/templates/` | páginas |
+
+## Cuidado importante
+
+Todos os nomes, descrições e obras deste protótipo são inventados. Em uso real, dados culturais e localização só
+devem ser publicados com autorização e participação da comunidade correspondente.
+
+A `SECRET_KEY` em `config/settings.py` é só de demonstração local. Troque antes de qualquer publicação.
