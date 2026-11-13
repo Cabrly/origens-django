@@ -1,0 +1,37 @@
+{% extends "cultura/base.html" %}
+{% block title %}Comunidades — Origens{% endblock %}
+{% block content %}
+<section class="page-header">
+    <span class="eyebrow">REDE CULTURAL</span>
+    <h1>Comunidades</h1>
+    <p>Perfis públicos de comunidades participantes. Neste protótipo, os registros exibidos são fictícios.</p>
+    <form class="search" method="get">
+        <input type="search" name="q" value="{{ termo }}" placeholder="Buscar por nome, perfil ou município...">
+        <button class="btn primary" type="submit">Buscar</button>
+    </form>
+</section>
+
+<section class="section">
+    <div class="grid three">
+        {% for comunidade in comunidades %}
+        <a class="card community-card" href="{% url 'cultura:comunidade_detalhe' comunidade.pk %}">
+            <div class="visual">
+                <span>{{ comunidade.estado }}</span>
+                <div class="visual-title">{{ comunidade.nome|slice:":1" }}</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <span class="tag">{{ comunidade.povo }}</span>
+                    {% if comunidade.demonstracao %}<span class="badge">DEMO</span>{% endif %}
+                </div>
+                <h3>{{ comunidade.nome }}</h3>
+                <p>{{ comunidade.descricao|truncatechars:145 }}</p>
+                <small>{{ comunidade.municipio }} · {{ comunidade.estado }}</small>
+            </div>
+        </a>
+        {% empty %}
+        <div class="empty">Nenhum resultado encontrado.</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

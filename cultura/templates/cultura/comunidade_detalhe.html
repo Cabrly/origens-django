@@ -1,0 +1,85 @@
+{% extends "cultura/base.html" %}
+{% block title %}{{ comunidade.nome }} — Origens{% endblock %}
+{% block content %}
+<section class="detail-hero">
+    <div>
+        <div class="row left">
+            <span class="eyebrow">{{ comunidade.estado }} · {{ comunidade.povo|upper }}</span>
+            {% if comunidade.demonstracao %}<span class="badge">PERFIL DEMONSTRATIVO</span>{% endif %}
+        </div>
+        <h1>{{ comunidade.nome }}</h1>
+        <p>{{ comunidade.descricao }}</p>
+        {% if comunidade.localizacao_publica %}
+        <div class="location">Localização pública: {{ comunidade.localizacao_publica }}</div>
+        {% endif %}
+    </div>
+</section>
+
+<section class="section two-column">
+    <article>
+        <span class="eyebrow">SOBRE</span>
+        <h2>História e identidade</h2>
+        <p>{{ comunidade.historia }}</p>
+        {% if comunidade.idiomas %}<p><strong>Idiomas:</strong> {{ comunidade.idiomas }}</p>{% endif %}
+    </article>
+    <aside class="info-card">
+        <span class="eyebrow sand">PRIVACIDADE</span>
+        <h3>Conteúdo sob controle da comunidade</h3>
+        <p>Uma implantação real deve exibir apenas informações autorizadas para divulgação pública.</p>
+    </aside>
+</section>
+
+<section class="section soft-section">
+    <div class="section-heading">
+        <div><span class="eyebrow">AGENDA</span><h2>Eventos relacionados</h2></div>
+    </div>
+    <div class="events-list light-list">
+        {% for evento in eventos %}
+        <article class="event-row">
+            <div class="event-date">
+                <strong>{{ evento.data|date:"d" }}</strong>
+                <span>{{ evento.data|date:"M"|upper }}</span>
+            </div>
+            <div class="event-info">
+                <span class="tag">{{ evento.get_tipo_display }}</span>
+                <h3>{{ evento.titulo }}</h3>
+                <p>{{ evento.descricao }}</p>
+            </div>
+            <div class="event-meta"><small>{{ evento.local_publico }}</small></div>
+        </article>
+        {% empty %}<div class="empty">Nenhum evento público vinculado.</div>{% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div><span class="eyebrow">ARTISTAS</span><h2>Expressões da comunidade</h2></div>
+    </div>
+    <div class="grid four">
+        {% for artista in artistas %}
+        <article class="artist-card">
+            <div class="avatar">{{ artista.nome_artistico|slice:":1" }}</div>
+            <span class="tag">{{ artista.get_categoria_display }}</span>
+            <h3>{{ artista.nome_artistico }}</h3>
+            <p>{{ artista.bio }}</p>
+        </article>
+        {% empty %}<div class="empty">Nenhum artista público vinculado.</div>{% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div><span class="eyebrow">EXPOSIÇÕES</span><h2>Galerias e mostras</h2></div>
+    </div>
+    <div class="grid two">
+        {% for exposicao in exposicoes %}
+        <article class="exhibition">
+            <span class="tag">{{ exposicao.virtual|yesno:"Virtual,Presencial" }}</span>
+            <h3>{{ exposicao.titulo }}</h3>
+            <p>{{ exposicao.descricao }}</p>
+            <strong>{{ exposicao.obras.count }} obras</strong>
+        </article>
+        {% empty %}<div class="empty">Nenhuma exposição publicada.</div>{% endfor %}
+    </div>
+</section>
+{% endblock %}

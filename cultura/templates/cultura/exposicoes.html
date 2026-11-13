@@ -1,0 +1,32 @@
+{% extends "cultura/base.html" %}
+{% block title %}Exposições — Origens{% endblock %}
+{% block content %}
+<section class="page-header">
+    <span class="eyebrow">ARTE E MEMÓRIA</span>
+    <h1>Exposições</h1>
+    <p>Mostras virtuais e presenciais reunindo obras de diferentes artistas e comunidades.</p>
+</section>
+<section class="section">
+    <div class="grid two">
+        {% for exposicao in exposicoes %}
+        <article class="exhibition">
+            <div class="row">
+                <span class="tag">{{ exposicao.virtual|yesno:"Virtual,Presencial" }}</span>
+                {% if exposicao.demonstracao %}<span class="badge">DEMO</span>{% endif %}
+            </div>
+            <h3>{{ exposicao.titulo }}</h3>
+            <p>{{ exposicao.descricao }}</p>
+            <div class="exhibition-footer">
+                {% if exposicao.comunidade %}<small>{{ exposicao.comunidade.nome }}</small>{% endif %}
+                <strong>{{ exposicao.obras.count }} obras</strong>
+            </div>
+            <div class="works">
+                {% for obra in exposicao.obras.all %}
+                <span>{{ obra.titulo }} · {{ obra.artista.nome_artistico }}</span>
+                {% endfor %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

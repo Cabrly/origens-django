@@ -1,0 +1,138 @@
+{% extends "cultura/base.html" %}
+{% block title %}Origens — Cultura conectada{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-copy">
+        <span class="eyebrow">REDE CULTURAL</span>
+        <h1>Histórias vivas.<br>Conexões reais.</h1>
+        <p>
+            Uma plataforma para comunidades participantes divulgarem eventos,
+            artistas, exposições e manifestações culturais com autonomia sobre
+            o que desejam tornar público.
+        </p>
+        <div class="hero-actions">
+            <a class="btn primary" href="{% url 'cultura:comunidades' %}">Explorar comunidades</a>
+            <a class="btn ghost" href="{% url 'cultura:eventos' %}">Ver agenda cultural</a>
+        </div>
+        <div class="demo-note">Protótipo com dados fictícios para visualização.</div>
+    </div>
+
+    <div class="hero-panel">
+        <span class="panel-label">PANORAMA DA REDE</span>
+        <h2>Cultura organizada em um só lugar.</h2>
+        <div class="stats">
+            <div><strong>{{ total_comunidades }}</strong><span>Comunidades</span></div>
+            <div><strong>{{ total_eventos }}</strong><span>Eventos</span></div>
+            <div><strong>{{ total_artistas }}</strong><span>Artistas</span></div>
+            <div><strong>{{ total_exposicoes }}</strong><span>Exposições</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">COMUNIDADES</span>
+            <h2>Conheça quem faz parte da rede</h2>
+        </div>
+        <a href="{% url 'cultura:comunidades' %}">Ver todas →</a>
+    </div>
+
+    <div class="grid three">
+        {% for comunidade in comunidades %}
+        <a class="card community-card" href="{% url 'cultura:comunidade_detalhe' comunidade.pk %}">
+            <div class="visual visual-{{ forloop.counter }}">
+                <span>{{ comunidade.estado }}</span>
+                <div class="visual-title">{{ comunidade.nome|slice:":1" }}</div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <span class="tag">{{ comunidade.povo }}</span>
+                    {% if comunidade.demonstracao %}<span class="badge">DEMO</span>{% endif %}
+                </div>
+                <h3>{{ comunidade.nome }}</h3>
+                <p>{{ comunidade.descricao|truncatechars:135 }}</p>
+                <small>{{ comunidade.municipio }} · {{ comunidade.estado }}</small>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section dark-section">
+    <div class="section-heading light">
+        <div>
+            <span class="eyebrow sand">AGENDA CULTURAL</span>
+            <h2>Próximos eventos</h2>
+        </div>
+        <a href="{% url 'cultura:eventos' %}">Agenda completa →</a>
+    </div>
+
+    <div class="events-list">
+        {% for evento in eventos %}
+        <article class="event-row">
+            <div class="event-date">
+                <strong>{{ evento.data|date:"d" }}</strong>
+                <span>{{ evento.data|date:"M"|upper }}</span>
+            </div>
+            <div class="event-info">
+                <span class="tag sand">{{ evento.get_tipo_display }}</span>
+                <h3>{{ evento.titulo }}</h3>
+                <p>{{ evento.descricao|truncatechars:125 }}</p>
+            </div>
+            <div class="event-meta">
+                <span>{{ evento.horario|time:"H:i" }}</span>
+                <small>{{ evento.local_publico }}</small>
+                {% if evento.gratuito %}<span class="free">Gratuito</span>{% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">ARTISTAS</span>
+            <h2>Expressões em destaque</h2>
+        </div>
+        <a href="{% url 'cultura:artistas' %}">Ver artistas →</a>
+    </div>
+    <div class="grid four">
+        {% for artista in artistas %}
+        <article class="artist-card">
+            <div class="avatar">{{ artista.nome_artistico|slice:":1" }}</div>
+            <span class="tag">{{ artista.get_categoria_display }}</span>
+            <h3>{{ artista.nome_artistico }}</h3>
+            <p>{{ artista.bio|truncatechars:105 }}</p>
+            {% if artista.comunidade %}<small>{{ artista.comunidade.nome }}</small>{% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section soft-section">
+    <div class="section-heading">
+        <div>
+            <span class="eyebrow">EXPOSIÇÕES</span>
+            <h2>Arte, memória e expressão</h2>
+        </div>
+        <a href="{% url 'cultura:exposicoes' %}">Ver exposições →</a>
+    </div>
+
+    <div class="grid two">
+        {% for exposicao in exposicoes %}
+        <article class="exhibition">
+            <span class="tag">{{ exposicao.virtual|yesno:"Exposição virtual,Exposição presencial" }}</span>
+            <h3>{{ exposicao.titulo }}</h3>
+            <p>{{ exposicao.descricao }}</p>
+            <div class="exhibition-footer">
+                {% if exposicao.comunidade %}<small>{{ exposicao.comunidade.nome }}</small>{% endif %}
+                <strong>{{ exposicao.obras.count }} obras</strong>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

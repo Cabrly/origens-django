@@ -1,0 +1,25 @@
+{% extends "cultura/base.html" %}
+{% block title %}Artistas — Origens{% endblock %}
+{% block content %}
+<section class="page-header">
+    <span class="eyebrow">EXPRESSÕES</span>
+    <h1>Artistas</h1>
+    <p>Música, pintura, artesanato, literatura, dança, fotografia e audiovisual em uma vitrine cultural.</p>
+</section>
+<section class="section">
+    <div class="grid four">
+        {% for artista in artistas %}
+        <article class="artist-card">
+            <div class="avatar">{{ artista.nome_artistico|slice:":1" }}</div>
+            <div class="row">
+                <span class="tag">{{ artista.get_categoria_display }}</span>
+                {% if artista.demonstracao %}<span class="badge">DEMO</span>{% endif %}
+            </div>
+            <h3>{{ artista.nome_artistico }}</h3>
+            <p>{{ artista.bio }}</p>
+            {% if artista.comunidade %}<small>{{ artista.comunidade.nome }}</small>{% endif %}
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

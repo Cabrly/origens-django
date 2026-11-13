@@ -1,0 +1,36 @@
+{% extends "cultura/base.html" %}
+{% block title %}Eventos — Origens{% endblock %}
+{% block content %}
+<section class="page-header">
+    <span class="eyebrow">AGENDA CULTURAL</span>
+    <h1>Eventos</h1>
+    <p>Feiras, oficinas, encontros, apresentações e outras atividades públicas cadastradas na plataforma.</p>
+</section>
+
+<section class="section">
+    <div class="events-list light-list">
+        {% for evento in eventos %}
+        <article class="event-row">
+            <div class="event-date">
+                <strong>{{ evento.data|date:"d" }}</strong>
+                <span>{{ evento.data|date:"M"|upper }}</span>
+            </div>
+            <div class="event-info">
+                <div class="row left">
+                    <span class="tag">{{ evento.get_tipo_display }}</span>
+                    {% if evento.demonstracao %}<span class="badge">DEMO</span>{% endif %}
+                </div>
+                <h3>{{ evento.titulo }}</h3>
+                <p>{{ evento.descricao }}</p>
+                {% if evento.comunidade %}<small>{{ evento.comunidade.nome }}</small>{% endif %}
+            </div>
+            <div class="event-meta">
+                {% if evento.horario %}<span>{{ evento.horario|time:"H:i" }}</span>{% endif %}
+                <small>{{ evento.local_publico }}</small>
+                {% if evento.gratuito %}<span class="free">Gratuito</span>{% endif %}
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

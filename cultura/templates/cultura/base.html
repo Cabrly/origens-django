@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Origens{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'cultura/style.css' %}">
+</head>
+<body>
+<header class="topbar">
+    <a href="{% url 'cultura:home' %}" class="brand">
+        <span class="brand-mark">O</span>
+        <span>Origens</span>
+    </a>
+    <nav>
+        <a href="{% url 'cultura:comunidades' %}">Comunidades</a>
+        <a href="{% url 'cultura:eventos' %}">Eventos</a>
+        <a href="{% url 'cultura:artistas' %}">Artistas</a>
+        <a href="{% url 'cultura:exposicoes' %}">Exposições</a>
+        <a class="admin-link" href="/admin/">Admin</a>
+    </nav>
+</header>
+
+<main>{% block content %}{% endblock %}</main>
+
+<footer>
+    <div>
+        <strong>Origens</strong>
+        <p>Protótipo acadêmico de uma rede de cultura, arte e comunidades.</p>
+    </div>
+    <span>Dados marcados como demonstração são fictícios.</span>
+</footer>
+</body>
+</html>
